@@ -32,23 +32,23 @@ public class Card
         this.value = value; 
     }
  
-    public int getName()
+    public String getName()
     {
         return name;  
     }
   
-    public void setName(String value)
+    public void setName(String name)
     {
-        this.value = value; 
+        this.name = name; 
     }
  
     public String getText()
     {
-        return value;  
+        return name;  
     }
   
-    public void setText(String value)
+    public void setText(String text)
     {
-        this.value = value; 
+        this.text = text; 
     }
 }
