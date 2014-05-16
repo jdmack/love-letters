@@ -1,3 +1,4 @@
+import java.util.*;
 
 public class Card
 {
@@ -12,7 +13,7 @@ public class Card
         this.text = text;
     }
   
-    public void action(Player currentPlayer, Player targetPlayer)
+    public void action(Player currentPlayer, ArrayList<Player> players)
     {
 
     }

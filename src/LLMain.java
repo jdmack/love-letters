@@ -2,12 +2,13 @@ import java.util.*;
 
 public class LLMain
 {
+    public static Deck deck;
     public static ArrayList<Player> players;
 
     public static void main(String args[])
     {
         int roundNumber = 0;
-        Deck deck = new Deck();
+        deck = new Deck();
         int winnerPlayer = 0;
         int numOfPlayers = initializePlayers();
         int winCondition = winCondition(numOfPlayers);
@@ -48,7 +49,7 @@ public class LLMain
                 currentPlayer.drawCard(deck);
 
                 // Choose one card, play it by discarding face up
-                currentPlayer.playCard();
+                currentPlayer.playCard(players);
 
                 // round ends if deck is empty at end of a turn
                 if(!deck.hasCards()) break;
@@ -91,6 +92,15 @@ public class LLMain
         }
             
         return numOfPlayers;
+    }
+
+    public static void printCards(ArrayList<Card> cards, String message)
+    {
+        System.out.println(message);
+        
+        for(int i = 0; i <= cards.size(); i++) {
+            System.out.println("\t" + (i + 1) + ") " + cards.get(i).toString()); 
+        }
     }
 
     public static Card chooseCard(ArrayList<Card> cards, String message)
@@ -160,6 +170,19 @@ public class LLMain
 
         // TODO Add tie condition
         return sortedPlayers.get(0);
+    }
+
+    public static ArrayList<Player> getActivePlayers(ArrayList<Player> players)
+    {
+        ArrayList<Player> activePlayers = new ArrayList<Player>();
+
+        for(int i = 0; i < players.size(); i++) {
+            if((players.get(i).getInRound()) && (!players.get(i).getImmune())) {
+                activePlayers.add(players.get(i));        
+            }
+        }
+
+        return activePlayers;
     }
 
 }

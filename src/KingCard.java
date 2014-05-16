@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class KingCard extends Card
 {
     public static final int KING_VALUE = 6;
@@ -9,8 +11,15 @@ public class KingCard extends Card
         super(KING_VALUE, KING_NAME, KING_TEXT);
     }
 
-    public void action(Player currentPlayer, Player targetPlayer)
+    public void action(Player currentPlayer, ArrayList<Player> players)
     {
+        Player targetPlayer = LLMain.choosePlayer(LLMain.getActivePlayers(players), "Choose target player: ");
+        ArrayList<Card> temp = currentPlayer.getHand();
+
+        currentPlayer.setHand(targetPlayer.getHand());
+        targetPlayer.setHand(temp);
+        
+        System.out.println("Switching hands with " + targetPlayer.getName());
 
     }
 }

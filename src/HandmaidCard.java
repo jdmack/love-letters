@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class HandmaidCard extends Card
 {
     public static final int HANDMAID_VALUE = 4;
@@ -9,7 +11,7 @@ public class HandmaidCard extends Card
         super(HANDMAID_VALUE, HANDMAID_NAME, HANDMAID_TEXT);
     }
 
-    public void action(Player currentPlayer, Player targetPlayer)
+    public void action(Player currentPlayer, ArrayList<Player> players)
     {
 
     }

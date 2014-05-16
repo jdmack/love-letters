@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class PrinceCard extends Card
 {
     public static final int PRINCE_VALUE = 5;
@@ -9,8 +11,11 @@ public class PrinceCard extends Card
         super(PRINCE_VALUE, PRINCE_NAME, PRINCE_TEXT);
     }
 
-    public void action(Player currentPlayer, Player targetPlayer)
+    public void action(Player currentPlayer, ArrayList<Player> players)
     {
-
+        Player targetPlayer = LLMain.choosePlayer(LLMain.getActivePlayers(players), "Choose target player: ");
+        System.out.println(targetPlayer.getName() + " discards their hand.");
+        targetPlayer.discardHand();
+        targetPlayer.drawCard(LLMain.deck);
     }
 }
