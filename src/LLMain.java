@@ -3,14 +3,14 @@ import java.util.*;
 public class LLMain
 {
     public static Deck deck;
-    public static ArrayList<Player> players;
+    public static PlayerList players;
 
     public static void main(String args[])
     {
         int roundNumber = 0;
         deck = new Deck();
         int numOfPlayers = initializePlayers();
-        int winCondition = winCondition(numOfPlayers);
+        int winCondition = calculateWinCondition(numOfPlayers);
         Player lastWinner = players.get(0);
 
         // Round loop
@@ -64,12 +64,12 @@ public class LLMain
                 if(!deck.hasCards()) break;
 
                 // round also ends if all but one player is out
-                if(numOfActivePlayers(players) == 1) break;
+                if(players.getNumOfActivePlayers() == 1) break;
 
                 currentPlayerIndex = ++currentPlayerIndex % numOfPlayers;
             }
             
-            lastWinner = determineRoundWinner(players); 
+            lastWinner = players.getRoundWinner(); 
 
             // winner receives a token of affection
             lastWinner.awardToken();
@@ -98,7 +98,7 @@ public class LLMain
     public static int initializePlayers()
     {
         Scanner keyboard = new Scanner(System.in);
-        players = new ArrayList<Player>();
+        players = new PlayerList();
         System.out.println("How many players? ");
         int numOfPlayers = Integer.parseInt(keyboard.nextLine());
 
@@ -111,6 +111,26 @@ public class LLMain
             
         return numOfPlayers;
     }
+
+    public static int calculateWinCondition(int numOfPlayers)
+    {
+        // A player wins when they get a number of tokens
+
+        // 2 players: 7 tokens
+        if(numOfPlayers == 2) return 7;
+
+        // 3 players: 5 tokens
+        if(numOfPlayers == 3) return 5;
+
+        // 4 players: 4 tokens
+        if(numOfPlayers == 4) return 4;
+
+        else return 0;
+    }
+    
+    //-------------------------------------------------------------------------
+    // Input/Output functions
+    //-------------------------------------------------------------------------
 
     public static void printCards(ArrayList<Card> cards, String message)
     {
@@ -150,69 +170,6 @@ public class LLMain
         int choice = keyboard.nextInt();
         
         return players.get(choice - 1);
-
-    }
-
-    public static int winCondition(int numOfPlayers)
-    {
-        // A player wins when they get a number of tokens
-
-        // 2 players: 7 tokens
-        if(numOfPlayers == 2) return 7;
-
-        // 3 players: 5 tokens
-        if(numOfPlayers == 3) return 5;
-
-        // 4 players: 4 tokens
-        if(numOfPlayers == 4) return 4;
-
-        else return 0;
-    }
-
-    public static int numOfActivePlayers(ArrayList<Player> players)
-    {
-        int count = 0;
-        for(int i = 0; i < players.size(); i++) {
-            if(players.get(i).getInRound())
-                count++;
-        }
-
-        return count;
-    }
-
-    public static Player determineRoundWinner(ArrayList<Player> players)
-    {
-        if(numOfActivePlayers(players) == 1) {
-            for(int i = 0; i < players.size(); i++) {
-                if(players.get(i).getInRound()) {
-                    return players.get(i);
-                }
-            }
-            return players.get(0);
-        }
-        else {
-            // round winner is whoever has the highest card in hand
-            // if tie, player with the highest total value of cards wins
-            ArrayList<Player> sortedPlayers = new ArrayList<Player>(players);
-            
-            Collections.sort(players, new PlayerComparator());
-
-            // TODO Add tie condition
-            return sortedPlayers.get(0);
-        }
-    }
-
-    public static ArrayList<Player> getActivePlayers(ArrayList<Player> players)
-    {
-        ArrayList<Player> activePlayers = new ArrayList<Player>();
-
-        for(int i = 0; i < players.size(); i++) {
-            if((players.get(i).getInRound()) && (!players.get(i).getImmune())) {
-                activePlayers.add(players.get(i));        
-            }
-        }
-
-        return activePlayers;
     }
 
 }

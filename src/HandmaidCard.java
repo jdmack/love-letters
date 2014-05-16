@@ -11,7 +11,7 @@ public class HandmaidCard extends Card
         super(HANDMAID_VALUE, HANDMAID_NAME, HANDMAID_TEXT);
     }
 
-    public void action(Player currentPlayer, ArrayList<Player> players)
+    public void action(Player currentPlayer, PlayerList players)
     {
         currentPlayer.setImmune(true);
     }

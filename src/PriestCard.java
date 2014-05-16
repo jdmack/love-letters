@@ -11,7 +11,7 @@ public class PriestCard extends Card
         super(PREIST_VALUE, PREIST_NAME, PREIST_TEXT);
     }
 
-    public void action(Player currentPlayer, ArrayList<Player> players)
+    public void action(Player currentPlayer, PlayerList players)
     {
         Player targetPlayer = LLMain.choosePlayer(LLMain.getActivePlayers(players), "Choose target player: ");
 

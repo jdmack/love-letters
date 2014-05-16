@@ -11,7 +11,7 @@ public class PrincessCard extends Card
         super(PRINCESS_VALUE, PRINCESS_NAME, PRINCESS_TEXT);
     }
 
-    public void action(Player currentPlayer, ArrayList<Player> players)
+    public void action(Player currentPlayer, PlayerList players)
     {
         currentPlayer.setInRound(false);
         System.out.println("You are out of the round!");

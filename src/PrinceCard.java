@@ -11,7 +11,7 @@ public class PrinceCard extends Card
         super(PRINCE_VALUE, PRINCE_NAME, PRINCE_TEXT);
     }
 
-    public void action(Player currentPlayer, ArrayList<Player> players)
+    public void action(Player currentPlayer, PlayerList players)
     {
         Player targetPlayer = LLMain.choosePlayer(LLMain.getActivePlayers(players), "Choose target player: ");
         System.out.println(targetPlayer.getName() + " discards their hand.");

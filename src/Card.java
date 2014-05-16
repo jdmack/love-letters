@@ -13,7 +13,7 @@ public class Card
         this.text = text;
     }
   
-    public void action(Player currentPlayer, ArrayList<Player> players)
+    public void action(Player currentPlayer, PlayerList players)
     {
 
     }

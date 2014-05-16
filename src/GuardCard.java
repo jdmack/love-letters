@@ -11,7 +11,7 @@ public class GuardCard extends Card
         super(GUARD_VALUE, GUARD_NAME, GUARD_TEXT);
     }
 
-    public void action(Player currentPlayer, ArrayList<Player> players)
+    public void action(Player currentPlayer, PlayerList players)
     {
         Player targetPlayer = LLMain.choosePlayer(players, "Choose target player: ");
 

@@ -11,7 +11,7 @@ public class CountessCard extends Card
         super(COUNTESS_VALUE, COUNTESS_NAME, COUNTESS_TEXT);
     }
 
-    public void action(Player currentPlayer, ArrayList<Player> players)
+    public void action(Player currentPlayer, PlayerList players)
     {
         // Nothing to do
     }

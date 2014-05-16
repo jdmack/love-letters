@@ -54,7 +54,7 @@ public class Player
     }
 
 
-    public void playCard(ArrayList<Player> players)
+    public void playCard(PlayerList players)
     {
         Player targetPlayer = new Player();
         Card card;
