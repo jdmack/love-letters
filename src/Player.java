@@ -69,6 +69,11 @@ public class Player
             hand.remove(0);
         }
     }
+    
+    public Card getTopCard()
+    {
+        return hand.get(0);
+    }
 
 
     //-------------------------------------------------------------------------

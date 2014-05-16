@@ -1,6 +1,5 @@
 import java.util.*;
 
-
 public class LLMain
 {
     public static ArrayList<Player> players;
@@ -11,6 +10,8 @@ public class LLMain
         Deck deck = new Deck();
         int winnerPlayer = 0;
         int numOfPlayers = initializePlayers();
+        int winCondition = winCondition(numOfPlayers);
+        Player lastWinner;
 
         // Round loop
         while(true) {
@@ -38,7 +39,7 @@ public class LLMain
 
             // Turn loop
             while(true) {
-                Player currentPlayer = players.get(i);
+                Player currentPlayer = players.get(currentPlayerIndex);
 
                 // Check if player is still in round 
                 if(!currentPlayer.getInRound()) continue;
@@ -49,30 +50,28 @@ public class LLMain
                 // Choose one card, play it by discarding face up
                 currentPlayer.playCard();
 
-                // Cards are discarded face up in front of the player who played it
-
-                // Next turn player to the left
-
-                // If a player is out of round, discard hand faceup in front of player (don't carrying out card effect)
-
-
                 // round ends if deck is empty at end of a turn
                 if(!deck.hasCards()) break;
+
                 // round also ends if all but one player is out
-                i = ++i % numOfPlayers;
+                if(numOfActivePlayers(players) == 1) break;
+
+
+                currentPlayerIndex = ++currentPlayerIndex % numOfPlayers;
             }
             
             // round winner is whoever has the highest card in hand
                 // if tie, player with the highest total value of cards wins
+            lastWinner = determineRoundWinner(players); 
             
+            if(lastWinner.getTokens() == winCondition) {
+                break;
+            }
+
             // winner receives a token of affection
 
         }
 
-        // A player wins when they get a number of tokens
-            // 2 players: 7 tokens
-            // 3 players: 5 tokens
-            // 4 players: 4 tokens
 
     }
 
@@ -93,4 +92,74 @@ public class LLMain
             
         return numOfPlayers;
     }
+
+    public static Card chooseCard(ArrayList<Card> cards, String message)
+    {
+        System.out.println(message);
+        
+        for(int i = 0; i <= cards.size(); i++) {
+            System.out.println("\t" + (i + 1) + ") " + cards.get(i).toString()); 
+        }
+        
+        Scanner keyboard = new Scanner(System.in);
+        System.out.print("Choose Card: ");
+        int choice = keyboard.nextInt();
+        
+        return cards.get(choice - 1);
+
+    }
+
+    public static Player choosePlayer(ArrayList<Player> players, String message)
+    {
+        System.out.println(message);
+        
+        for(int i = 0; i <= players.size(); i++) {
+            System.out.println("\t" + (i + 1) + ") " + players.get(i).toString()); 
+        }
+        
+        Scanner keyboard = new Scanner(System.in);
+        System.out.print("Choose Player: ");
+        int choice = keyboard.nextInt();
+        
+        return players.get(choice - 1);
+
+    }
+
+    public static int winCondition(int numOfPlayers)
+    {
+        // A player wins when they get a number of tokens
+
+        // 2 players: 7 tokens
+        if(numOfPlayers == 2) return 7;
+
+        // 3 players: 5 tokens
+        if(numOfPlayers == 3) return 5;
+
+        // 4 players: 4 tokens
+        if(numOfPlayers == 4) return 4;
+
+        else return 0;
+    }
+
+    public static int numOfActivePlayers(ArrayList<Player> players)
+    {
+        int count = 0;
+        for(int i = 0; i < players.size(); i++) {
+            if(players.get(i).getInRound())
+                count++;
+        }
+
+        return count;
+    }
+
+    public static Player determineRoundWinner(ArrayList<Player> players)
+    {
+        ArrayList<Player> sortedPlayers = new ArrayList<Player>(players);
+        
+        Collections.sort(players, new PlayerComparator());
+
+        // TODO Add tie condition
+        return sortedPlayers.get(0);
+    }
+
 }
