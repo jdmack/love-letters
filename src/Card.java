@@ -51,4 +51,9 @@ public class Card
     {
         this.text = text; 
     }
+
+    public String toString()
+    {
+        return name;
+    }
 }
