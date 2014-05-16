@@ -9,14 +9,14 @@ public class LLMain
     {
         int roundNumber = 0;
         deck = new Deck();
-        int winnerPlayer = 0;
         int numOfPlayers = initializePlayers();
         int winCondition = winCondition(numOfPlayers);
-        Player lastWinner;
+        Player lastWinner = players.get(0);
 
         // Round loop
         while(true) {
             roundNumber++;
+            deck.shuffle();
 
             // If 2 players, discard 3 cards face up
             if(numOfPlayers == 2) {
@@ -32,15 +32,24 @@ public class LLMain
             int currentPlayerIndex;
             if(roundNumber == 1) {
                 Random random = new Random();
-                currentPlayerIndex = random.nextInt(numOfPlayers) + 1;
+                currentPlayerIndex = random.nextInt(numOfPlayers);
             }
             else {
-                currentPlayerIndex = winnerPlayer;
+                currentPlayerIndex = players.indexOf(lastWinner);
             }
+            System.out.println(players.get(currentPlayerIndex).getName() + " goes first."); 
 
             // Turn loop
             while(true) {
                 Player currentPlayer = players.get(currentPlayerIndex);
+
+                System.out.println("\n" + currentPlayer.getName() + "'s turn:");
+                System.out.println("-----------------------------------------------");
+
+                // Reset immune status
+                if(currentPlayer.getImmune()) {
+                    currentPlayer.setImmune(false);
+                }
 
                 // Check if player is still in round 
                 if(!currentPlayer.getInRound()) continue;
@@ -57,21 +66,31 @@ public class LLMain
                 // round also ends if all but one player is out
                 if(numOfActivePlayers(players) == 1) break;
 
-
                 currentPlayerIndex = ++currentPlayerIndex % numOfPlayers;
             }
             
-            // round winner is whoever has the highest card in hand
-                // if tie, player with the highest total value of cards wins
             lastWinner = determineRoundWinner(players); 
+
+            // winner receives a token of affection
+            lastWinner.awardToken();
+
+            System.out.println(lastWinner.getName() + " wins the round!\n");
+            System.out.println("===============================================");
+            System.out.println("===============================================\n");
+
             
             if(lastWinner.getTokens() == winCondition) {
                 break;
             }
+            
+            for(int i = 0; i < players.size(); i++) {
+                players.get(i).resetRound();
+            } 
 
-            // winner receives a token of affection
-
+            deck.reset();
         }
+
+        System.out.println(lastWinner.getName() + " won the game!!!");
 
 
     }
@@ -81,11 +100,10 @@ public class LLMain
         Scanner keyboard = new Scanner(System.in);
         players = new ArrayList<Player>();
         System.out.println("How many players? ");
-        int numOfPlayers = keyboard.nextInt();
+        int numOfPlayers = Integer.parseInt(keyboard.nextLine());
 
         for(int i = 1; i <= numOfPlayers; i++) {
-            System.out.println("Player " + i);
-            System.out.println("\tName: ");
+            System.out.print("Player " + i + " Name: ");
             String playerName = keyboard.nextLine();
 
             players.add(new Player(i, playerName));
@@ -98,7 +116,7 @@ public class LLMain
     {
         System.out.println(message);
         
-        for(int i = 0; i <= cards.size(); i++) {
+        for(int i = 0; i < cards.size(); i++) {
             System.out.println("\t" + (i + 1) + ") " + cards.get(i).toString()); 
         }
     }
@@ -107,7 +125,7 @@ public class LLMain
     {
         System.out.println(message);
         
-        for(int i = 0; i <= cards.size(); i++) {
+        for(int i = 0; i < cards.size(); i++) {
             System.out.println("\t" + (i + 1) + ") " + cards.get(i).toString()); 
         }
         
@@ -123,8 +141,8 @@ public class LLMain
     {
         System.out.println(message);
         
-        for(int i = 0; i <= players.size(); i++) {
-            System.out.println("\t" + (i + 1) + ") " + players.get(i).toString()); 
+        for(int i = 0; i < players.size(); i++) {
+            System.out.println("\t" + (i + 1) + ") " + players.get(i).getName()); 
         }
         
         Scanner keyboard = new Scanner(System.in);
@@ -164,12 +182,24 @@ public class LLMain
 
     public static Player determineRoundWinner(ArrayList<Player> players)
     {
-        ArrayList<Player> sortedPlayers = new ArrayList<Player>(players);
-        
-        Collections.sort(players, new PlayerComparator());
+        if(numOfActivePlayers(players) == 1) {
+            for(int i = 0; i < players.size(); i++) {
+                if(players.get(i).getInRound()) {
+                    return players.get(i);
+                }
+            }
+            return players.get(0);
+        }
+        else {
+            // round winner is whoever has the highest card in hand
+            // if tie, player with the highest total value of cards wins
+            ArrayList<Player> sortedPlayers = new ArrayList<Player>(players);
+            
+            Collections.sort(players, new PlayerComparator());
 
-        // TODO Add tie condition
-        return sortedPlayers.get(0);
+            // TODO Add tie condition
+            return sortedPlayers.get(0);
+        }
     }
 
     public static ArrayList<Player> getActivePlayers(ArrayList<Player> players)

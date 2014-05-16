@@ -13,6 +13,6 @@ public class HandmaidCard extends Card
 
     public void action(Player currentPlayer, ArrayList<Player> players)
     {
-
+        currentPlayer.setImmune(true);
     }
 }

@@ -35,7 +35,11 @@ public class Player
 
     public void drawCard(Deck deck)
     {
-        hand.add(deck.dealCard());
+        Card card = deck.dealCard();
+
+        System.out.println(name + " draws a " + card.getName());
+
+        hand.add(card);
     }
 
     public boolean hasCard(Card card)
@@ -54,14 +58,15 @@ public class Player
     {
         Player targetPlayer = new Player();
         Card card;
-        if((hasCard(new HandmaidCard())) && (hasCard(new KingCard()) || hasCard(new PrinceCard()))) {
+        if((hasCard(new CountessCard())) && (hasCard(new KingCard()) || hasCard(new PrinceCard()))) {
 
-            card = getCard(new HandmaidCard()); 
+            card = getCard(new CountessCard()); 
         }
         else {
             card = LLMain.chooseCard(hand, "Which card to play?");
         }
 
+        discardCard(card);
         cardHistory.add(card);
 
         System.out.println("Playing " + card.toString());
@@ -70,6 +75,7 @@ public class Player
 
     public void discardCard(Card card)
     {
+        hand.remove(hand.indexOf(card));
     }
 
     public void discardHand()
@@ -94,6 +100,14 @@ public class Player
 
         return card;
     }
+
+    public void resetRound()
+    {
+        discardHand();
+        inRound = true;
+        immune = false;
+    }
+
 
     //-------------------------------------------------------------------------
     //  Getters/Setters
