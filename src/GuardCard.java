@@ -13,7 +13,7 @@ public class GuardCard extends Card
 
     public void action(Player currentPlayer, PlayerList players)
     {
-        Player targetPlayer = LLMain.choosePlayer(players, "Choose target player: ");
+        Player targetPlayer = LLMain.choosePlayer(players.getPlayerList(), "Choose target player: ");
 
         ArrayList<Card> cardList = new ArrayList<Card>();
         cardList.add(new BaronCard());

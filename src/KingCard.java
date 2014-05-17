@@ -13,7 +13,7 @@ public class KingCard extends Card
 
     public void action(Player currentPlayer, PlayerList players)
     {
-        Player targetPlayer = LLMain.choosePlayer(LLMain.getActivePlayers(players), "Choose target player: ");
+        Player targetPlayer = LLMain.choosePlayer(players.getActivePlayers(), "Choose target player: ");
         ArrayList<Card> temp = currentPlayer.getHand();
 
         currentPlayer.setHand(targetPlayer.getHand());

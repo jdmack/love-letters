@@ -13,7 +13,7 @@ public class PrinceCard extends Card
 
     public void action(Player currentPlayer, PlayerList players)
     {
-        Player targetPlayer = LLMain.choosePlayer(LLMain.getActivePlayers(players), "Choose target player: ");
+        Player targetPlayer = LLMain.choosePlayer(players.getActivePlayers(), "Choose target player: ");
         System.out.println(targetPlayer.getName() + " discards their hand.");
         targetPlayer.discardHand();
         targetPlayer.drawCard(LLMain.deck);

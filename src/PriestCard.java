@@ -13,7 +13,7 @@ public class PriestCard extends Card
 
     public void action(Player currentPlayer, PlayerList players)
     {
-        Player targetPlayer = LLMain.choosePlayer(LLMain.getActivePlayers(players), "Choose target player: ");
+        Player targetPlayer = LLMain.choosePlayer(players.getActivePlayers(), "Choose target player: ");
 
         LLMain.printCards(targetPlayer.getHand(), targetPlayer.getName() + "'s hand: ");
     }

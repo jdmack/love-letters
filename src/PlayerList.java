@@ -9,18 +9,20 @@ public class PlayerList
         playerList = new ArrayList<Player>();
     }
 
+    /*
     public PlayerList(PlayerList players)
     {
         playerList = new ArrayList<Player>(players.getPlayerList());
         // copy constructor
     }
+    */
 
     public ArrayList<Player> getPlayerList()
     {
         return playerList;
     }
 
-    public static ArrayList<Player> getActivePlayers()
+    public ArrayList<Player> getActivePlayers()
     {
         ArrayList<Player> activePlayers = new ArrayList<Player>();
 
@@ -34,9 +36,9 @@ public class PlayerList
         return activePlayers;
     }
 
-    public static Player getRoundWinner()
+    public Player getRoundWinner()
     {
-        if(numOfActivePlayers(playerList) == 1) {
+        if(getNumOfActivePlayers() == 1) {
             for(int i = 0; i < playerList.size(); i++) {
                 if(playerList.get(i).getInRound()) {
                     return playerList.get(i);
@@ -56,7 +58,7 @@ public class PlayerList
         }
     }
 
-    public static int getNumOfActivePlayers()
+    public int getNumOfActivePlayers()
     {
         int count = 0;
         for(int i = 0; i < playerList.size(); i++) {
@@ -84,7 +86,7 @@ public class PlayerList
 
     public void add(Player player)
     {
-        return playerList.add(player);
+        playerList.add(player);
     }
 
 
